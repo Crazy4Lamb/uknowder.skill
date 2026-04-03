@@ -1,4 +1,4 @@
-# uknowder.skill
+# 你知道个der.skill
 ### 你知道个 der · 爹味暴躁反击技能
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
