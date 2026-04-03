@@ -2,9 +2,11 @@
 ### 你知道个 der · 爹味暴躁反击技能
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.6%2B-brightgreen)](https://www.python.org/)
-[![Dad Taste](https://img.shields.io/badge/dad%20taste-repelled-red)](https://github.com/)
-[![Rebel Level](https://img.shields.io/badge/rebel-max-ff69b4)](https://github.com/)
+[![Python](https://img.shields.io/badge/python-3.6%2B-brightgreen.svg)](https://www.python.org/)
+[![Dad Vibe](https://img.shields.io/badge/爹味-当场粉碎-orange.svg)](https://github.com/)
+[![Shittalk](https://img.shields.io/badge/瞎逼逼-直接闭嘴-red.svg)](https://github.com/)
+[![Release](https://img.shields.io/badge/状态-彻底释放-green.svg)](https://github.com/)
+[![Power](https://img.shields.io/badge/战斗力-拉满爆表-yellow.svg)](https://github.com/)
 
 专治各种好为人师、居高临下、强行说教、道德绑架、人生指点。
 别教我做事，别给我讲道理，别 PUA 我。
