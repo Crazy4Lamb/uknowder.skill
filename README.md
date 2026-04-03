@@ -25,7 +25,9 @@
 ## 安装
 
 ```bash
-pip install uknowder
+git clone https://github.com/Crazy4Lamb/uknowder.skill.git
+cd uknowder.skill
+pip install .
 ```
 
 ## 快速使用
