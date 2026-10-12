@@ -1,25 +1,56 @@
+import json
+import subprocess
+import sys
+import unittest
 from uknowder import Uknowder
 
-bot = Uknowder()
 
-print("=== uknowder 爹味反击测试 ===")
-print()
+class BehaviorTests(unittest.TestCase):
+    def test_categories(self):
+        bot = Uknowder()
+        for category, keywords in bot.KEYWORDS:
+            for keyword in keywords:
+                self.assertEqual(bot.classify(keyword), category)
+        self.assertEqual(bot.classify("完全未知话题 XYZ"), "general")
 
-print("1. 输入：我都是为你好")
-print(bot.say("我都是为你好"))
-print()
+    def test_modes_and_seed(self):
+        outputs = []
+        for mode in ['rebellious', 'sarcastic', 'boundary']:
+            kw = {"style": mode} if 'uknowder.skill' == "diewei.skill" else {"mode": mode}
+            first, second = Uknowder(seed=7, **kw), Uknowder(seed=7, **kw)
+            texts = ["为你好", "完全未知话题"] * 4
+            self.assertEqual(first.batch(texts), second.batch(texts))
+            outputs.append(Uknowder(seed=7, **kw).say("为你好"))
+        self.assertEqual(len(set(outputs)), len(outputs))
 
-print("2. 输入：年轻人就是太浮躁")
-print(bot.say("年轻人就是太浮躁"))
-print()
+    def test_input_and_configuration_errors(self):
+        bot = Uknowder()
+        for value in (None, 123, []):
+            with self.assertRaises(TypeError):
+                bot.say(value)
+        self.assertTrue(bot.say("   "))
+        with self.assertRaises(TypeError):
+            bot.batch("not a list")
+        kw = {"style": "unknown"} if 'uknowder.skill' == "diewei.skill" else {"mode": "unknown"}
+        with self.assertRaises(ValueError):
+            Uknowder(**kw)
 
-print("3. 输入：我是过来人，听我的")
-print(bot.say("我是过来人，听我的"))
-print()
+    def test_cli_json(self):
+        result = subprocess.run([sys.executable, "-m", "uknowder", "为你好", "--seed", "7", "--json"], capture_output=True, text=True, encoding="utf-8", check=True)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["category"], 'care')
+        self.assertTrue(data["reply"])
+        self.assertEqual(data["engine"], "local-templates")
 
-print("4. 输入：你怎么还不结婚生孩子")
-print(bot.say("你怎么还不结婚生孩子"))
-print()
+    def test_reply_alias_and_strength(self):
+        self.assertEqual(Uknowder(seed=7).say("为你好"), Uknowder(seed=7).reply("为你好"))
+        weak = Uknowder(rage_level=0, seed=7).reply("为你好")
+        strong = Uknowder(rage_level=100, seed=7).reply("为你好")
+        self.assertTrue(strong.startswith(weak))
+        for value in (-1, 101, "100", True):
+            with self.assertRaises(ValueError):
+                Uknowder(rage_level=value)
 
-print("5. 输入：找个稳定工作别瞎折腾")
-print(bot.say("找个稳定工作别瞎折腾"))
+
+if __name__ == "__main__":
+    unittest.main()
